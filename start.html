@@ -13607,6 +13607,21 @@
                 rounds[currentRound][i]['promo1'] = inputs[2].checked;
                 rounds[currentRound][i]['promo2'] = inputs[3].checked; 
             }
+
+            calculateMarketValues();
+            hideRoundInput();
+            showResult();
+        }
+
+        function hideRoundInput() {
+            document.getElementById('round-input-screen').style.display = 'none';
+        }
+
+        function showResult() {
+            document.getElementById('score-screen').style.display = 'block';
+        }
+
+        function calculateMarketValues() {
             console.log(rounds);
         }
 
@@ -13655,6 +13670,7 @@
             </div>
             <div id="score-screen" style="display:none;">
                 <table id="score-table"></table>
+                <p>Dit is de volgende stap in het development proces. De nieuwste versie staat altijd op <a href="https://github.com/struyf/DecisionMaking/blob/main/start.html">github</a> en dan rechtsboven op de drie puntjes klikken om te downloaden.</p>
             </div>
             
         </main>
