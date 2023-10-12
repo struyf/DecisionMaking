@@ -13489,7 +13489,17 @@
         let groups = {};
 
         function startGame() {
-            alert('hello world');
+            const iGroups = parseInt(document.getElementById('inputGroups').value);
+            if (isNaN(iGroups) || iGroups < 1 || iGroups > 10) {
+                // wrong input
+                alert('Gelieve een correct getal in the vullen');
+            }
+            else {
+                alert('U registreerde ' + iGroups + ' groepen');
+                for (let i = 0; i < iGroups; i++) {
+
+                }
+            }
         }
 
     </script>
@@ -13497,20 +13507,43 @@
     <title>Strategic Decision Making - Universiteit Gent</title>
 </head>
 <body>
-    <header>
-        <h1>Simulatiespel Prototype</h1>
-    </header>
-    
-    <div id="container">
+    <div class="container">
+        <header>
+            <h1>Simulatiespel Prototype</h1>
+        </header>
+        <br />
+
         <nav id="admin-menu"></nav>
         <main>
-            <p>Kies het aantal groepen: </p>
-            <button class="btn" id="btn-start" onclick="startGame()">Start Spel</button>
-            <table id="score-table"></table>
+            <div id="start-game-screen">
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="inputGroups" class="col-form-label">Aantal groepen</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="inputGroups" class="form-control" aria-describedby="groupsHelpInline" value="4">
+                    </div>
+                    <div class="col-auto">
+                        <span id="groupsHelpInline" class="form-text">
+                            Vul een getal in tussen 1 en 10.
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <button type="button" class="btn btn-primary" id="btn-start" onclick="startGame()">Start Spel</button>
+            </div>
+            <div id="round-input-screen" style="visibility:hidden;">
+                tadaaa
+            </div>
+            <div id="score-screen" style="visibility:hidden;">
+                <table id="score-table"></table>
+            </div>
+            
         </main>
-        
+
+
+
+        <footer class="bg-warning text-center fixed-bottom"><p>&#169; Universiteit Gent 2023-2024</p></footer>
     </div>
-    
-    <footer><p>&#169; Universiteit Gent 2023-2024</p></footer>
 </body>
 </html>
