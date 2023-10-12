@@ -13486,71 +13486,23 @@
     <script type="text/javascript" defer>
 
         // my custom logic
-        let groups = {};
+        let rounds = [];
+        var currentRound = 0;
+        var iGroups = 0;
 
         function startGame() {
-            const iGroups = parseInt(document.getElementById('inputGroups').value);
-            let currentRound = 1;
+            iGroups = parseInt(document.getElementById('inputGroups').value);
+            currentRound = 0;
 
             if (isNaN(iGroups) || iGroups < 1 || iGroups > 10) {
                 // wrong input
-                alert('Gelieve een correct getal in the vullen');
+                alert('Gelieve een correct getal in the vullen.');
             }
             else {
-                alert('U registreerde ' + iGroups + ' groepen');
                 hideStartGameScreen();
                 showRoundInput();
-                for (let i = 0; i < iGroups; i++) {
-                    var row = document.createElement('tr');
-
-                    // group number
-                    var cell = document.createElement('td');
-                    var textNode = document.createTextNode(i + 1);
-
-                    cell.appendChild(textNode);
-                    row.appendChild(cell);
-
-                    // price
-                    cell = document.createElement('td');
-                    var inputNode = document.createElement('input');
-
-                    cell.appendChild(inputNode);
-                    row.appendChild(cell);
-
-                    // qty
-                    cell = document.createElement('td');
-                    var inputNode = document.createElement('input');
-
-                    cell.appendChild(inputNode);
-                    row.appendChild(cell);
-
-                    // promo 1
-                    cell = document.createElement('td');
-                    var inputNode = document.createElement('input');
-                    inputNode.setAttribute('type', 'checkbox');
-
-                    cell.appendChild(inputNode);
-                    row.appendChild(cell);
-
-                    // promo 2
-                    cell = document.createElement('td');
-                    var inputNode = document.createElement('input');
-                    inputNode.setAttribute('type', 'checkbox');
-
-                    cell.appendChild(inputNode);
-                    row.appendChild(cell);
-
-                    // button
-                    cell = document.createElement('td');
-                    var btnFinish = document.createElement('button');
-                    btnFinish.textContent = 'Vastzetten';
-                    btnFinish.setAttribute('class', 'btn btn-success');
-
-                    cell.appendChild(btnFinish);
-                    row.appendChild(cell);
-
-                    document.getElementById('input-table').appendChild(row);
-                }
+                
+                
             }
         }
 
@@ -13560,6 +13512,106 @@
 
         function showRoundInput() {
             document.getElementById('round-input-screen').style.display = 'block';
+            document.getElementById('round-indicator').textContent = 'Dit is ronde ' + (++currentRound);
+            for (let i = 0; i < iGroups; i++) {
+                var row = document.createElement('tr');
+
+                // group number
+                var cell = document.createElement('td');
+                var textNode = document.createTextNode(i + 1);
+
+                cell.appendChild(textNode);
+                row.appendChild(cell);
+
+                // price
+                cell = document.createElement('td');
+                var inputNode = document.createElement('input');
+
+                cell.appendChild(inputNode);
+                row.appendChild(cell);
+
+                // qty
+                cell = document.createElement('td');
+                var inputNode = document.createElement('input');
+
+                cell.appendChild(inputNode);
+                row.appendChild(cell);
+
+                // promo 1
+                cell = document.createElement('td');
+                var inputNode = document.createElement('input');
+                inputNode.setAttribute('type', 'checkbox');
+
+                cell.appendChild(inputNode);
+                row.appendChild(cell);
+
+                // promo 2
+                cell = document.createElement('td');
+                var inputNode = document.createElement('input');
+                inputNode.setAttribute('type', 'checkbox');
+
+                cell.appendChild(inputNode);
+                row.appendChild(cell);
+
+                // button
+                cell = document.createElement('td');
+                var btnFinish = document.createElement('button');
+                btnFinish.textContent = 'Vastzetten';
+                btnFinish.setAttribute('class', 'btn btn-success');
+                btnFinish.onclick = (event)=> (lockRow(event));
+
+                cell.appendChild(btnFinish);
+                row.appendChild(cell);
+
+                document.getElementById('input-table').appendChild(row);
+            }
+        }
+
+        function lockRow(event) {
+            let currentClass = event.target.getAttribute('class');
+            if (currentClass == 'btn btn-success') {
+                // lock this
+                event.target.setAttribute('class', 'btn btn-secondary');
+                event.target.textContent = 'Klaar';
+                let inputs = event.target.parentNode.parentNode.getElementsByTagName('input');
+
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute('disabled', 'disabled');
+                }
+            }
+            else if (currentClass == 'btn btn-secondary') {
+                // unlock this
+                event.target.setAttribute('class', 'btn btn-success');
+                event.target.textContent = 'Vastzetten';
+
+                let inputs = event.target.parentNode.parentNode.getElementsByTagName('input');
+
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].removeAttribute('disabled', 'disabled');
+                }
+            }
+        }
+
+        function finalizeRound() {
+            if (checkAllRowsLocked() == false) {
+                alert('Nog niet alle rijen werden vastgezet');
+                return;
+            }
+            let rows = document.getElementsByTagName('tr');
+            rounds[currentRound] = [];
+            for (let i = 1; i < rows.length; i++) {
+                let inputs = rows[i].getElementsByTagName('input');
+                rounds[currentRound][i] = [];
+                rounds[currentRound][i]['price'] = parseFloat(inputs[0].value);
+                rounds[currentRound][i]['qty'] = parseFloat(inputs[1].value);
+                rounds[currentRound][i]['promo1'] = inputs[2].checked;
+                rounds[currentRound][i]['promo2'] = inputs[3].checked; 
+            }
+            console.log(rounds);
+        }
+
+        function checkAllRowsLocked() {
+            return true;
         }
 
     </script>
@@ -13593,12 +13645,13 @@
                 <button type="button" class="btn btn-primary" id="btn-start" onclick="startGame()">Start Spel</button>
             </div>
             <div id="round-input-screen" style="display:none;">
+                <h2 id="round-indicator">Dit is ronde 1</h2>
                 <p>Vul de gegevens in die elke groep gekozen heeft:</p>
                 <table id="input-table">
                     <tr><th>Groep</th><th>Prijs</th><th>Hoeveelheid</th><th>Promo 1</th><th>Promo 2</th><th>Actie</th></tr>
                 </table>
                 <p>Voordat u deze gegevens definitief indient, moet u eerst alle rijen vastzetten.</p>
-                <button type="button" class="btn btn-danger">Definitief indienen</button>
+                <button type="button" class="btn btn-danger" onclick="finalizeRound()">Definitief indienen</button>
             </div>
             <div id="score-screen" style="display:none;">
                 <table id="score-table"></table>
