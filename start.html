@@ -13487,25 +13487,36 @@
 
         // my custom logic
         let rounds = {};
-        var currentRound = 0;
-        var iGroups = 0;
+        let groups = {};
+        let iGroups = 1;
+        let currentRound = 0;
         const marketSize = 10000;
 
         checkExistingGame();
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
-            currentRound = 0;
+                      
 
             if (isNaN(iGroups) || iGroups < 1 || iGroups > 10) {
                 // wrong input
                 alert('Gelieve een correct getal in the vullen.');
             }
             else {
+                let basePower = marketSize / iGroups;
+                currentRound = 0;
+                for (let i = 0; i < iGroups; i++) {
+                    groups['group' + (i + 1)] = {
+                        capital: 100000,
+                        stock: 0,
+                        image: 1,
+                        name: "Groep " + (i + 1),
+                        power: basePower
+                    };
+                }
                 hideStartGameScreen();
                 showRoundInput();
-                
-                
+                console.log(groups);
             }
         }
 
@@ -13625,13 +13636,20 @@
 
         function saveToStorage() {
             localStorage.setItem('rounds', JSON.stringify(rounds));
+            localStorage.setItem('groups', JSON.stringify(groups));
         }
 
         function loadFromStorage() {
             try {
                 rounds = JSON.parse(localStorage.getItem('rounds'));
-                console.log('rounds found');
+                if (rounds == null)
+                    rounds = {};
+                groups = JSON.parse(localStorage.getItem('groups'));
+                if (groups == null)
+                    groups = {};
+                
                 console.log(rounds);
+                console.log(groups);
             }
             catch (err) {
                 console.log(err);
@@ -13648,6 +13666,10 @@
 
         function calculateMarketValues() {
             console.log(rounds);
+
+            for (let i = 0; i < iGroups.length; i++) {
+
+            }
         }
 
         function checkAllRowsLocked() {
