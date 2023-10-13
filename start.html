@@ -13486,10 +13486,12 @@
     <script type="text/javascript" defer>
 
         // my custom logic
-        let rounds = [];
+        let rounds = {};
         var currentRound = 0;
         var iGroups = 0;
         const marketSize = 10000;
+
+        checkExistingGame();
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
@@ -13504,6 +13506,13 @@
                 showRoundInput();
                 
                 
+            }
+        }
+
+        function checkExistingGame() {
+            loadFromStorage();
+            if (typeof rounds.round1 !== 'undefined') {
+
             }
         }
 
@@ -13599,14 +13608,14 @@
                 return;
             }
             let rows = document.getElementsByTagName('tr');
-            rounds[currentRound] = [];
+            rounds['round' + currentRound] = {};
             for (let i = 1; i < rows.length; i++) {
                 let inputs = rows[i].getElementsByTagName('input');
-                rounds[currentRound][i] = [];
-                rounds[currentRound][i]['price'] = parseFloat(inputs[0].value);
-                rounds[currentRound][i]['qty'] = parseFloat(inputs[1].value);
-                rounds[currentRound][i]['promo1'] = inputs[2].checked;
-                rounds[currentRound][i]['promo2'] = inputs[3].checked; 
+                rounds['round' + currentRound]['group' + i] = {};
+                rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
+                rounds['round' + currentRound]['group' + i]['qty'] = parseFloat(inputs[1].value);
+                rounds['round' + currentRound]['group' + i]['promo1'] = inputs[2].checked;
+                rounds['round' + currentRound]['group' + i]['promo2'] = inputs[3].checked; 
             }
             saveToStorage();
             calculateMarketValues();
@@ -13615,14 +13624,18 @@
         }
 
         function saveToStorage() {
-            localStorage.setItem('rounds', rounds);
+            localStorage.setItem('rounds', JSON.stringify(rounds));
         }
 
-        function loadFromCookie() {
+        function loadFromStorage() {
             try {
                 rounds = JSON.parse(localStorage.getItem('rounds'));
+                console.log('rounds found');
+                console.log(rounds);
             }
-            catch (err) { }
+            catch (err) {
+                console.log(err);
+            }
         }
 
         function hideRoundInput() {
