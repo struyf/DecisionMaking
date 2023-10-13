@@ -689,7 +689,7 @@
         }
 
             .blockquote-footer::before {
-                content: "— "
+                content: "ï¿½ï¿½"
             }
 
         .img-fluid {
@@ -13489,6 +13489,7 @@
         let rounds = [];
         var currentRound = 0;
         var iGroups = 0;
+        const marketSize = 10000;
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
@@ -13607,10 +13608,21 @@
                 rounds[currentRound][i]['promo1'] = inputs[2].checked;
                 rounds[currentRound][i]['promo2'] = inputs[3].checked; 
             }
-
+            saveToStorage();
             calculateMarketValues();
             hideRoundInput();
             showResult();
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('rounds', rounds);
+        }
+
+        function loadFromCookie() {
+            try {
+                rounds = JSON.parse(localStorage.getItem('rounds'));
+            }
+            catch (err) { }
         }
 
         function hideRoundInput() {
