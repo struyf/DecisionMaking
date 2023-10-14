@@ -13492,6 +13492,8 @@
         let currentRound = 0;
         const marketSize = 10000;
         const basePrice = 88.12;
+        const promoBasic = 50000;
+        const promoPremium = 100000;
 
         checkExistingGame();
 
@@ -13535,6 +13537,9 @@
         function showRoundInput() {
             document.getElementById('round-input-screen').style.display = 'block';
             document.getElementById('round-indicator').textContent = 'Dit is ronde ' + (++currentRound);
+            document.getElementById('input-table').innerHTML = '<tr><th scope="col">Groep</th><th scope="col">Verkoopprijs/stuk</th>\
+                    <th scope="col">Aankoophoeveelheid</th><th scope="col">Promo Basic?</th><th scope="col">Promo Premium?</th>\
+                    <th scope="col">Actie</th></tr>';
             for (let i = 0; i < iGroups; i++) {
                 var row = document.createElement('tr');
 
@@ -13548,6 +13553,7 @@
                 // price
                 cell = document.createElement('td');
                 var inputNode = document.createElement('input');
+                inputNode.setAttribute('placeholder', 'vb. 120');
 
                 cell.appendChild(inputNode);
                 row.appendChild(cell);
@@ -13555,6 +13561,7 @@
                 // qty
                 cell = document.createElement('td');
                 var inputNode = document.createElement('input');
+                inputNode.setAttribute('placeholder', 'vb. 1000');
 
                 cell.appendChild(inputNode);
                 row.appendChild(cell);
@@ -13623,14 +13630,17 @@
             rounds['round' + currentRound] = {};
             for (let i = 1; i < rows.length; i++) {
                 let inputs = rows[i].getElementsByTagName('input');
-                rounds['round' + currentRound]['group' + i] = {};
-                rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
-                rounds['round' + currentRound]['group' + i]['qty'] = parseInt(inputs[1].value);
-                rounds['round' + currentRound]['group' + i]['promo1'] = inputs[2].checked;
-                rounds['round' + currentRound]['group' + i]['promo2'] = inputs[3].checked; 
+                if (inputs.length > 0) {
+                    rounds['round' + currentRound]['group' + i] = {};
+                    rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
+                    rounds['round' + currentRound]['group' + i]['qty'] = parseInt(inputs[1].value);
+                    rounds['round' + currentRound]['group' + i]['promoBasic'] = inputs[2].checked;
+                    rounds['round' + currentRound]['group' + i]['promoPremium'] = inputs[3].checked; 
+                }
+                
             }
             calculateMarketValues();
-            saveToStorage();      
+            saveToStorage();
             hideRoundInput();
             showResult();
         }
@@ -13665,6 +13675,36 @@
 
         function showResult() {
             document.getElementById('score-screen').style.display = 'block';
+            document.getElementById('round-indicator-results').textContent = 'Resultaat ronde ' + currentRound;
+            generateResultTable();
+
+        }
+
+        function generateResultTable() {
+            document.getElementById('score-table').innerHTML = '<thead class="thead-light"><tr><th scope="col">Groep</th> \
+                <th scope="col">Units Gevraagd</th><th scope="col">Units verkocht</th> \
+                <th scope="col">Verkoopprijs</th><th scope="col">Omzet</th> \
+                <th scope="col">Promokosten</th><th scope="col">Aangekochte units</th>\
+                <th scope="col">Aankoopkost</th><th scope="col">Winst</th><th scope="col">Eindvoorraad</th></tr></thead>';
+            let html = '<tbody>';
+            let roundResult = rounds['round' + currentRound];
+            for (let i = 1; i <= iGroups; i++) {
+                let groupkey = 'group' + i;
+                html += '<tr><th scope="row">' + groups[groupkey]['name'] + '</th>';
+                html += '<td>' + roundResult[groupkey]['unitsDemanded'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['unitsSold'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['price'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['sales'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['promocost'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['qty'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['purchaseCost'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['profit'] + '</td>';
+                html += '<td>' + roundResult[groupkey]['endStock'] + '</td></tr>';
+            }
+
+            html += '</tbody>';
+
+            document.getElementById('score-table').innerHTML += html;
         }
 
         function calculateMarketValues() {
@@ -13680,15 +13720,16 @@
 
                 // update stock
                 groups[groupkey]['stock'] += roundForThisGroup['qty'];
+                roundForThisGroup['purchaseCost'] = roundForThisGroup['qty'] * basePrice;
 
                 // update image with marketing
-                if (roundForThisGroup['promo1']) {
+                if (roundForThisGroup['promoBasic']) {
                     groups[groupkey]['image'] *= 1.05;
                 }
-                if (roundForThisGroup['promo2']) {
+                if (roundForThisGroup['promoPremium']) {
                     groups[groupkey]['image'] *= 1.1;
                 }
-                if (roundForThisGroup['promo1'] && roundForThisGroup['promo2']) {
+                if (roundForThisGroup['promoBasic'] && roundForThisGroup['promoPremium']) {
                     groups[groupkey]['image'] *= 1.2; // extra bonus for combination on top of other effects
                 }                
 
@@ -13729,6 +13770,23 @@
                     roundForThisGroup['unitsSold'] = parseInt(groups[groupkey]['power']);
                     roundForThisGroup['sales'] = roundForThisGroup['unitsSold'] * roundForThisGroup['price'];
                 }
+
+                roundForThisGroup['endStock'] = groups[groupkey]['stock'] -= roundForThisGroup['unitsSold'];
+                roundForThisGroup['unitsDemanded'] = parseInt(groups[groupkey]['power']);
+
+                roundForThisGroup['profit'] = roundForThisGroup['sales'] - roundForThisGroup['purchaseCost'];
+
+                let promocost = 0;
+
+                if (roundForThisGroup['promoBasic'])
+                    promocost += promoBasic;
+
+                if (roundForThisGroup['promoPremium'])
+                    promocost += promoPremium;
+
+                roundForThisGroup['profit'] -= promocost;
+                roundForThisGroup['promocost'] = promocost;
+
                 roundForThisGroup['finalImage'] = groups[groupkey]['image'];
                 rounds['round' + currentRound][groupkey] = roundForThisGroup;
             }
@@ -13738,6 +13796,15 @@
 
         function checkAllRowsLocked() {
             return true;
+        }
+
+        function nextRound() {
+            hideResult();
+            showRoundInput();
+        }
+
+        function hideResult() {
+            document.getElementById('score-screen').style.display = 'none';
         }
 
     </script>
@@ -13773,15 +13840,14 @@
             <div id="round-input-screen" style="display:none;">
                 <h2 id="round-indicator">Dit is ronde 1</h2>
                 <p>Vul de gegevens in die elke groep gekozen heeft:</p>
-                <table id="input-table">
-                    <tr><th>Groep</th><th>Verkoopprijs/stuk</th><th>Aankoophoeveelheid</th><th>Promo Basic?</th><th>Promo Premium?</th><th>Actie</th></tr>
-                </table>
+                <table id="input-table" class="table"></table>
                 <p>Voordat u deze gegevens definitief indient, moet u eerst alle rijen vastzetten.</p>
                 <button type="button" class="btn btn-danger" onclick="finalizeRound()">Definitief indienen</button>
             </div>
             <div id="score-screen" style="display:none;">
-                <table id="score-table"></table>
-                <p>Dit is de volgende stap in het development proces. De nieuwste versie staat altijd op <a href="https://github.com/struyf/DecisionMaking/blob/main/start.html">github</a> en dan rechtsboven op de drie puntjes klikken om te downloaden.</p>
+                <h2 id="round-indicator-results">Ronde 1 Resultaat</h2>
+                <table id="score-table" class="table table-striped table-bordered table-hover"></table>
+                <button type="button" class="btn btn-primary" id="btn-next-round" onclick="nextRound()">Volgende ronde</button>
             </div>
         </main>
 
