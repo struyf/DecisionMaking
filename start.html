@@ -13491,6 +13491,7 @@
         let iGroups = 1;
         let currentRound = 0;
         const marketSize = 10000;
+        const basePrice = 88.12;
 
         checkExistingGame();
 
@@ -13539,7 +13540,7 @@
 
                 // group number
                 var cell = document.createElement('td');
-                var textNode = document.createTextNode(i + 1);
+                var textNode = document.createTextNode(groups['group'+(i + 1)]['name']);
 
                 cell.appendChild(textNode);
                 row.appendChild(cell);
@@ -13624,12 +13625,12 @@
                 let inputs = rows[i].getElementsByTagName('input');
                 rounds['round' + currentRound]['group' + i] = {};
                 rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
-                rounds['round' + currentRound]['group' + i]['qty'] = parseFloat(inputs[1].value);
+                rounds['round' + currentRound]['group' + i]['qty'] = parseInt(inputs[1].value);
                 rounds['round' + currentRound]['group' + i]['promo1'] = inputs[2].checked;
                 rounds['round' + currentRound]['group' + i]['promo2'] = inputs[3].checked; 
             }
-            saveToStorage();
             calculateMarketValues();
+            saveToStorage();      
             hideRoundInput();
             showResult();
         }
@@ -13645,8 +13646,10 @@
                 if (rounds == null)
                     rounds = {};
                 groups = JSON.parse(localStorage.getItem('groups'));
-                if (groups == null)
+                if (groups == null) {
                     groups = {};
+                    rounds = {}; // reset rounds too
+                }
                 
                 console.log(rounds);
                 console.log(groups);
@@ -13665,11 +13668,72 @@
         }
 
         function calculateMarketValues() {
-            console.log(rounds);
 
-            for (let i = 0; i < iGroups.length; i++) {
+            let totalImage = 0;
+            let highestPrice;
+            let lowestPrice;
 
+            for (let i = 0; i < iGroups; i++) {
+
+                const groupkey = 'group' + (i + 1);
+                let roundForThisGroup = rounds['round' + currentRound][groupkey];
+
+                // update stock
+                groups[groupkey]['stock'] += roundForThisGroup['qty'];
+
+                // update image with marketing
+                if (roundForThisGroup['promo1']) {
+                    groups[groupkey]['image'] *= 1.05;
+                }
+                if (roundForThisGroup['promo2']) {
+                    groups[groupkey]['image'] *= 1.1;
+                }
+                if (roundForThisGroup['promo1'] && roundForThisGroup['promo2']) {
+                    groups[groupkey]['image'] *= 1.2; // extra bonus for combination on top of other effects
+                }                
+
+                // update highest price and lowest price
+                if (typeof highestPrice === 'undefined' || roundForThisGroup['price'] > highestPrice)
+                    highestPrice = roundForThisGroup['price'];
+
+                if (typeof lowestPrice === 'undefined' || roundForThisGroup['price'] < lowestPrice)
+                    lowestPrice = roundForThisGroup['price'];
             }
+
+            // evaluate price impact
+            for (let i = 0; i < iGroups; i++) {
+                const groupkey = 'group' + (i + 1);
+                let roundForThisGroup = rounds['round' + currentRound][groupkey];
+
+                groups[groupkey]['image'] *= (lowestPrice / roundForThisGroup['price']);
+
+                totalImage += groups[groupkey]['image'];
+            }
+
+            // determine demand based on market size
+            for (let i = 0; i < iGroups; i++) {
+                const groupkey = 'group' + (i + 1);
+                let roundForThisGroup = rounds['round' + currentRound][groupkey];
+
+                groups[groupkey]['power'] = groups[groupkey]['image'] / totalImage * marketSize;
+                roundForThisGroup['presaleImage'] = groups[groupkey]['image'];
+
+                // can we meet the demand?
+                if (groups[groupkey]['power'] > groups[groupkey]['stock']) {
+                    // demand is more than they have, customer frustration
+                    groups[groupkey]['image'] *= (groups[groupkey]['stock'] / groups[groupkey]['power']);
+                    roundForThisGroup['unitsSold'] = parseInt(groups[groupkey]['stock']);
+                    roundForThisGroup['sales'] = roundForThisGroup['unitsSold'] * roundForThisGroup['price'];
+                }
+                else {
+                    roundForThisGroup['unitsSold'] = parseInt(groups[groupkey]['power']);
+                    roundForThisGroup['sales'] = roundForThisGroup['unitsSold'] * roundForThisGroup['price'];
+                }
+                roundForThisGroup['finalImage'] = groups[groupkey]['image'];
+                rounds['round' + currentRound][groupkey] = roundForThisGroup;
+            }
+
+            console.log(rounds);
         }
 
         function checkAllRowsLocked() {
@@ -13683,7 +13747,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Simulatiespel Prototype</h1>
+            <h1>Simulatiespel (prototype)</h1>
         </header>
         <br />
 
@@ -13710,7 +13774,7 @@
                 <h2 id="round-indicator">Dit is ronde 1</h2>
                 <p>Vul de gegevens in die elke groep gekozen heeft:</p>
                 <table id="input-table">
-                    <tr><th>Groep</th><th>Prijs</th><th>Hoeveelheid</th><th>Promo 1</th><th>Promo 2</th><th>Actie</th></tr>
+                    <tr><th>Groep</th><th>Verkoopprijs/stuk</th><th>Aankoophoeveelheid</th><th>Promo Basic?</th><th>Promo Premium?</th><th>Actie</th></tr>
                 </table>
                 <p>Voordat u deze gegevens definitief indient, moet u eerst alle rijen vastzetten.</p>
                 <button type="button" class="btn btn-danger" onclick="finalizeRound()">Definitief indienen</button>
@@ -13719,10 +13783,7 @@
                 <table id="score-table"></table>
                 <p>Dit is de volgende stap in het development proces. De nieuwste versie staat altijd op <a href="https://github.com/struyf/DecisionMaking/blob/main/start.html">github</a> en dan rechtsboven op de drie puntjes klikken om te downloaden.</p>
             </div>
-            
         </main>
-
-
 
         <footer class="bg-warning text-center fixed-bottom"><p>&#169; Universiteit Gent 2023-2024</p></footer>
     </div>
