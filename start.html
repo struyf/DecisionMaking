@@ -13499,7 +13499,7 @@
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
-                      
+
 
             if (isNaN(iGroups) || iGroups < 1 || iGroups > 10) {
                 // wrong input
@@ -13538,14 +13538,14 @@
             document.getElementById('round-input-screen').style.display = 'block';
             document.getElementById('round-indicator').textContent = 'Dit is ronde ' + (++currentRound);
             document.getElementById('input-table').innerHTML = '<tr><th scope="col">Groep</th><th scope="col">Verkoopprijs/stuk</th>\
-                    <th scope="col">Aankoophoeveelheid</th><th scope="col">Promo Basic?</th><th scope="col">Promo Premium?</th>\
-                    <th scope="col">Actie</th></tr>';
+                        <th scope="col">Aankoophoeveelheid</th><th scope="col">Promo Basic?</th><th scope="col">Promo Premium?</th>\
+                        <th scope="col">Actie</th></tr>';
             for (let i = 0; i < iGroups; i++) {
                 var row = document.createElement('tr');
 
                 // group number
                 var cell = document.createElement('td');
-                var textNode = document.createTextNode(groups['group'+(i + 1)]['name']);
+                var textNode = document.createTextNode(groups['group' + (i + 1)]['name']);
 
                 cell.appendChild(textNode);
                 row.appendChild(cell);
@@ -13587,7 +13587,7 @@
                 var btnFinish = document.createElement('button');
                 btnFinish.textContent = 'Vastzetten';
                 btnFinish.setAttribute('class', 'btn btn-success');
-                btnFinish.onclick = (event)=> (lockRow(event));
+                btnFinish.onclick = (event) => (lockRow(event));
 
                 cell.appendChild(btnFinish);
                 row.appendChild(cell);
@@ -13635,9 +13635,9 @@
                     rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
                     rounds['round' + currentRound]['group' + i]['qty'] = parseInt(inputs[1].value);
                     rounds['round' + currentRound]['group' + i]['promoBasic'] = inputs[2].checked;
-                    rounds['round' + currentRound]['group' + i]['promoPremium'] = inputs[3].checked; 
+                    rounds['round' + currentRound]['group' + i]['promoPremium'] = inputs[3].checked;
                 }
-                
+
             }
             calculateMarketValues();
             saveToStorage();
@@ -13660,7 +13660,7 @@
                     groups = {};
                     rounds = {}; // reset rounds too
                 }
-                
+
                 console.log(rounds);
                 console.log(groups);
             }
@@ -13677,15 +13677,55 @@
             document.getElementById('score-screen').style.display = 'block';
             document.getElementById('round-indicator-results').textContent = 'Resultaat ronde ' + currentRound;
             generateResultTable();
+            generateMarketValueTable();
+        }
 
+        function getSortedGroups() {
+            let hasSwap = false;
+            let sortedGroups = [];
+
+            for (let i = 1; i <= iGroups; i++) {
+                sortedGroups[i - 1] = groups['group' + i];
+            }
+
+            do {
+                hasSwap = false;
+                for (let i = 0; i < sortedGroups.length - 1; i++) {
+                    if (sortedGroups[i]['capital'] < sortedGroups[(i + 1)]['capital']) {
+                        hasSwap = true;
+                        biggerGroup = sortedGroups[(i + 1)];
+                        smallerGroup = sortedGroups[i];
+                        sortedGroups[i] = biggerGroup;
+                        sortedGroups[i + 1] = smallerGroup;
+                    }
+                }
+            } while (hasSwap)
+
+            return sortedGroups;
+        }
+
+        function generateMarketValueTable() {
+            document.getElementById('market-value').innerHTML = '<thead><tr><th scope="col">Plaats</th>\
+                <th scope="col">Groep</th><th scope="col">Marktwaarde</th></tr></thead>';
+
+            let html = '<tbody>';
+            let sortedGroups = getSortedGroups();
+
+            for (let i = 0; i < sortedGroups.length; i++) {
+                html += '<tr><td>' + (i + 1) + '</td>';
+                html += '<td>' + sortedGroups[i]['name'] + '</td>';
+                html += '<td>' + sortedGroups[i]['capital'] + '</td></tr>';
+            }
+            html += '</tbody>';
+            document.getElementById('market-value').innerHTML += html;
         }
 
         function generateResultTable() {
             document.getElementById('score-table').innerHTML = '<thead class="thead-light"><tr><th scope="col">Groep</th> \
-                <th scope="col">Units Gevraagd</th><th scope="col">Units verkocht</th> \
-                <th scope="col">Verkoopprijs</th><th scope="col">Omzet</th> \
-                <th scope="col">Promokosten</th><th scope="col">Aangekochte units</th>\
-                <th scope="col">Aankoopkost</th><th scope="col">Winst</th><th scope="col">Eindvoorraad</th></tr></thead>';
+                    <th scope="col">Units Gevraagd</th><th scope="col">Units verkocht</th> \
+                    <th scope="col">Verkoopprijs</th><th scope="col">Omzet</th> \
+                    <th scope="col">Promokosten</th><th scope="col">Aangekochte units</th>\
+                    <th scope="col">Aankoopkost</th><th scope="col">Winst</th><th scope="col">Eindvoorraad</th></tr></thead>';
             let html = '<tbody>';
             let roundResult = rounds['round' + currentRound];
             for (let i = 1; i <= iGroups; i++) {
@@ -13731,7 +13771,7 @@
                 }
                 if (roundForThisGroup['promoBasic'] && roundForThisGroup['promoPremium']) {
                     groups[groupkey]['image'] *= 1.2; // extra bonus for combination on top of other effects
-                }                
+                }
 
                 // update highest price and lowest price
                 if (typeof highestPrice === 'undefined' || roundForThisGroup['price'] > highestPrice)
@@ -13775,6 +13815,7 @@
                 roundForThisGroup['unitsDemanded'] = parseInt(groups[groupkey]['power']);
 
                 roundForThisGroup['profit'] = roundForThisGroup['sales'] - roundForThisGroup['purchaseCost'];
+                groups[groupkey]['capital'] += roundForThisGroup['profit'];
 
                 let promocost = 0;
 
@@ -13790,8 +13831,6 @@
                 roundForThisGroup['finalImage'] = groups[groupkey]['image'];
                 rounds['round' + currentRound][groupkey] = roundForThisGroup;
             }
-
-            console.log(rounds);
         }
 
         function checkAllRowsLocked() {
@@ -13846,7 +13885,11 @@
             </div>
             <div id="score-screen" style="display:none;">
                 <h2 id="round-indicator-results">Ronde 1 Resultaat</h2>
+                <br />
                 <table id="score-table" class="table table-striped table-bordered table-hover"></table>
+                <h2>Rangschikking volgens marktwaarde</h2>
+                <br />
+                <table id="market-value" class="table table-striped table-bordered table-hover"></table>
                 <button type="button" class="btn btn-primary" id="btn-next-round" onclick="nextRound()">Volgende ronde</button>
             </div>
         </main>
