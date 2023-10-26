@@ -13590,7 +13590,7 @@
             <h1>Simulatiespel (prototype)</h1>
         </header>
         <br />
-        <div id="ticker-box" class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3" 
+        <div id="ticker-box" class="p-3 bg-dark text-info rounded-3" 
              style="font-family:'VT323';font-size:24px;">
 
             <ul>
@@ -14008,6 +14008,7 @@
 
                 roundForThisGroup['profit'] = roundForThisGroup['sales'] - roundForThisGroup['purchaseCost'];
                 groups[groupkey]['capital'] += roundForThisGroup['profit'];
+                roundForThisGroup['capital'] = groups[groupkey]['capital'];
 
                 let promocost = 0;
 
@@ -14026,17 +14027,36 @@
         }
 
         function generateGraph() {
+            // create labels
+            labels = [];
+            for (let i = 1; i <= currentRound; i++) {
+                labels.push('Ronde ' + i);
+            }
+
+            // create datasets
+            datasets = [];
+            for (let i = 0; i < iGroups; i++) {
+                const groupkey = 'group' + (i + 1);
+                let dataset = {};
+                dataset['label'] = groups[groupkey]['name'];
+                let data = [];
+                for (let j = 1; j <= currentRound; j++) {
+                    data.push(rounds['round' + j][groupkey]['capital']);
+                }
+                dataset['data'] = data;
+
+                datasets.push(dataset);
+            }
+            console.log(datasets);
+
+
             const ctx = document.getElementById('myChart');
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Ronde 1', 'Ronde 2', 'Ronde 3', 'Ronde 4', 'Ronde 5', 'Ronde 6'],
-                    datasets: [{
-                        label: 'Groep 1',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderWidth: 1
-                    }]
+                    labels: labels,
+                    datasets: datasets
                 },
                 options: {
                     scales: {
