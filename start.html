@@ -13691,6 +13691,7 @@
         const basePrice = 88.12;
         const promoBasic = 50000;
         const promoPremium = 100000;
+        let myChart;
 
         //checkExistingGame();
 
@@ -13717,6 +13718,24 @@
                     };
                 }
                 showRoundInput();
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.from(forms).forEach(form => {
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        } else {
+                            event.preventDefault()
+                            event.stopPropagation()
+                            finalizeRound();
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
             }
         }
 
@@ -13800,28 +13819,12 @@
             document.getElementById('input-table').innerHTML +=
                 '<button type="submit" class="btn btn-danger">Definitief indienen</button>';
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    } else {
-                        event.preventDefault()
-                        event.stopPropagation()
-                        finalizeRound();
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
+           
         }
 
         function finalizeRound() {
-            let rows = document.getElementsByTagName('tr');
+            //let rows = document.getElementsByTagName('tr');
+            let rows = document.querySelectorAll('#input-table tr');
             rounds['round' + currentRound] = {};
             for (let i = 1; i < rows.length; i++) {
                 let inputs = rows[i].getElementsByTagName('input');
@@ -13832,7 +13835,6 @@
                     rounds['round' + currentRound]['group' + i]['promoBasic'] = inputs[2].checked;
                     rounds['round' + currentRound]['group' + i]['promoPremium'] = inputs[3].checked;
                 }
-
             }
             calculateMarketValues();
             saveToStorage();
@@ -14006,9 +14008,7 @@
                 roundForThisGroup['endStock'] = groups[groupkey]['stock'] -= roundForThisGroup['unitsSold'];
                 roundForThisGroup['unitsDemanded'] = parseInt(groups[groupkey]['power']);
 
-                roundForThisGroup['profit'] = roundForThisGroup['sales'] - roundForThisGroup['purchaseCost'];
-                groups[groupkey]['capital'] += roundForThisGroup['profit'];
-                roundForThisGroup['capital'] = groups[groupkey]['capital'];
+                roundForThisGroup['profit'] = roundForThisGroup['sales'] - roundForThisGroup['purchaseCost'];        
 
                 let promocost = 0;
 
@@ -14020,6 +14020,8 @@
 
                 roundForThisGroup['profit'] -= promocost;
                 roundForThisGroup['promocost'] = promocost;
+                groups[groupkey]['capital'] += roundForThisGroup['profit'];
+                roundForThisGroup['capital'] = groups[groupkey]['capital'];
 
                 roundForThisGroup['finalImage'] = groups[groupkey]['image'];
                 rounds['round' + currentRound][groupkey] = roundForThisGroup;
@@ -14047,12 +14049,13 @@
 
                 datasets.push(dataset);
             }
-            console.log(datasets);
-
 
             const ctx = document.getElementById('myChart');
 
-            new Chart(ctx, {
+            if (typeof myChart !== 'undefined')
+                myChart.destroy();
+
+            myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -14067,7 +14070,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Evolutie marktaandeel',
+                            text: 'Evolutie marktwaarde',
                             position: 'top',
                             align: 'center',
                             font: {
@@ -14077,11 +14080,6 @@
                     }
                 }
             });
-        }
-
-        function checkAllRowsLocked() {
-            // TODO: Input validation
-            return true;
         }
 
     </script>
