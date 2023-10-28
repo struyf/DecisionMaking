@@ -13590,9 +13590,8 @@
             <h1>Simulatiespel (prototype)</h1>
         </header>
         <br />
-        <div id="ticker-box" class="p-3 bg-dark text-info rounded-3" 
+        <div id="ticker-box" class="p-3 bg-dark text-warning rounded-3 align-top" 
              style="font-family:'VT323';font-size:24px;">
-
             <ul>
                 <li>Grootbanken investeren in nieuwe retailers voor technologiemarkt. Nieuwe aanbieders van smartphones op komst in ons land. Nationale Bank: "Minder protectionisme, meer mogelijkheden."</li>
                 <li>Economen tevreden over extra concurrentie op telefoniemarkt: "Dit gaat veel nieuwe banen scheppen".</li>
@@ -13610,7 +13609,7 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="round-input-tab" data-bs-toggle="tab" data-bs-target="#round-input-tab-pane"
-                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false">
+                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" onclick="showRoundInput()">
                     Ronde Input
                 </button>
             </li>
@@ -13649,12 +13648,25 @@
                     <div id="round-input-screen">
                         <h2 id="round-indicator">Dit is ronde 1</h2>
                         <p>Vul de gegevens in die elke groep gekozen heeft:</p>
-                        <form class="needs-validation" novalidate>
+                        <form id="form-input" class="needs-validation" novalidate>
                             <table id="input-table" class="table"></table>
                         </form>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
+                    <form id="form-settings" class="needs-validation" novalidate>
+                        <table id="settings-table" class="table"></table>
+                        <button type="submit" class="btn btn-danger">Updaten</button>
+                        <br />
+                        <div id="settingsToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="mr-auto">Groepsnamen</strong>
+                            </div>
+                            <div class="toast-body">
+                                De groepsnamen werden succesvol aangepast. 
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="tab-pane fade show active" id="start-tab-pane" role="tabpanel" aria-labelledby="start-tab" tabindex="0">
                     <div id="start-game-screen">
@@ -13669,7 +13681,6 @@
                                 <span id="groupsHelpInline" class="form-text">
                                     Vul een getal in tussen 1 en 10.
                                 </span>
-
                             </div>
                         </div>
                         <br />
@@ -13678,25 +13689,35 @@
                 </div>
             </div>
         </main>
-        <footer class="bg-warning text-center fixed-bottom"><p>&#169; Universiteit Gent 2023-2024</p></footer>
+        <footer class="bg-warning text-center"><p>&#169; Universiteit Gent 2023-2024</p></footer>
+
     </div>
     <script type="text/javascript" defer>
 
-        // my custom logic
+        // globals
         let rounds = {};
         let groups = {};
         let iGroups = 1;
-        let currentRound = 0;
+        let currentRound = 1;
         const marketSize = 10000;
         const basePrice = 88.12;
         const promoBasic = 50000;
         const promoPremium = 100000;
         let myChart;
+        let currentCustomEvent;
+
+        const customEvents = [{
+
+        }];
 
         //checkExistingGame();
 
         //start ticker
         startTicker('ticker-box');
+
+        const toastElList = document.querySelectorAll('.toast');
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl));
+        const toastSettings = bootstrap.Toast.getOrCreateInstance(document.getElementById('settingsToast'));
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
@@ -13707,7 +13728,7 @@
             }
             else {
                 let basePower = marketSize / iGroups;
-                currentRound = 0;
+                currentRound = 1;
                 for (let i = 0; i < iGroups; i++) {
                     groups['group' + (i + 1)] = {
                         capital: 100000,
@@ -13717,26 +13738,51 @@
                         power: basePower
                     };
                 }
+                generateSettingsPage();
                 showRoundInput();
+                
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                const forms = document.querySelectorAll('.needs-validation')
+                const forms = document.querySelectorAll('.needs-validation');
 
                 // Loop over them and prevent submission
                 Array.from(forms).forEach(form => {
+                    
                     form.addEventListener('submit', event => {
                         if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
+                            event.preventDefault();
+                            event.stopPropagation();
                         } else {
-                            event.preventDefault()
-                            event.stopPropagation()
-                            finalizeRound();
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            if (form.id == 'form-input')
+                                finalizeRound();
+                            else if (form.id == 'form-settings')
+                                updateGroupNames();
                         }
 
-                        form.classList.add('was-validated')
+                        form.classList.add('was-validated');
                     }, false)
                 })
             }
+        }
+
+        function updateGroupNames() {
+            const inputs = document.querySelectorAll('#form-settings input');
+
+            if (inputs.length > 0) {
+                for (let i = 0; i < inputs.length; i++) {
+                    groups['group' + (i + 1)]['name'] = inputs[i].value;
+                }
+            }
+            
+            toastSettings.show();
+            if (Object.keys(rounds).length) {
+                generateResultTable();
+                generateMarketValueTable();
+                generateGraph();
+            }
+            
         }
 
         function checkExistingGame() {
@@ -13755,13 +13801,18 @@
                     tabTrigger.show();
                 });
             });
-            const btnRoundInputEl = document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]')
-            bootstrap.Tab.getInstance(btnRoundInputEl).show();
 
-            document.getElementById('round-indicator').textContent = 'Dit is ronde ' + (++currentRound);
-            document.getElementById('input-table').innerHTML = '<tr><th scope="col">Groep</th><th scope="col">Verkoopprijs/stuk</th>\
-                                    <th scope="col">Aankoophoeveelheid</th><th scope="col">Promo Basic?</th><th scope="col">Promo Premium?</th>\
-                                    </tr>';
+            bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]')).show();
+
+            if (typeof rounds['round' + currentRound] !== 'undefined') {
+                currentRound++;
+            }
+
+            document.getElementById('round-indicator').textContent = 'Dit is ronde ' + currentRound;
+            document.getElementById('input-table').innerHTML = 
+            '<tr><th scope="col">Groep</th><th scope="col">Verkoopprijs/stuk</th>\
+                <th scope="col">Aankoophoeveelheid</th><th scope="col">Promo Basic?</th><th scope="col">Promo Premium?</th>\
+                </tr>';
             for (let i = 0; i < iGroups; i++) {
                 var row = document.createElement('tr');
 
@@ -13818,12 +13869,19 @@
             }
             document.getElementById('input-table').innerHTML +=
                 '<button type="submit" class="btn btn-danger">Definitief indienen</button>';
+        }
 
-           
+        function generateSettingsPage() {
+            const tableEl = document.getElementById('settings-table');
+            tableEl.innerHTML = '<tr><th>Groep</th><th>Naam</th></tr>';
+            let keys = Object.keys(groups);
+            for (let i = 0; i < keys.length; i++) {
+                tableEl.innerHTML += '<tr><td>' + (i+1) + '</td><td><input id="'+ keys[i] +'-name-update" type="text" value="'
+                    + groups[keys[i]]['name'] + '" class="form-control" required /></td></tr>';
+            }
         }
 
         function finalizeRound() {
-            //let rows = document.getElementsByTagName('tr');
             let rows = document.querySelectorAll('#input-table tr');
             rounds['round' + currentRound] = {};
             for (let i = 1; i < rows.length; i++) {
@@ -13866,12 +13924,14 @@
         }
 
         function showResult() {
+            // update gui
             document.getElementById('round-indicator-results').textContent = 'Verkoopsresultaat ronde ' + currentRound;
-            const btnEl = document.querySelector('#myTab button[data-bs-target="#home-tab-pane"]')
-            bootstrap.Tab.getInstance(btnEl).show();
+            bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#home-tab-pane"]')).show();
+
             generateResultTable();
             generateMarketValueTable();
             generateGraph();
+            generateTickerMessages();
         }
 
         function getSortedGroups() {
@@ -13908,7 +13968,9 @@
             for (let i = 0; i < sortedGroups.length; i++) {
                 html += '<tr><td>' + (i + 1) + '</td>';
                 html += '<td>' + sortedGroups[i]['name'] + '</td>';
-                html += '<td>' + sortedGroups[i]['capital'] + '</td></tr>';
+                html += '<td>'
+                    + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(sortedGroups[i]['capital'])
+                    + '</td></tr>';
             }
             html += '</tbody>';
             document.getElementById('market-value').innerHTML += html;
@@ -13916,9 +13978,9 @@
 
         function generateResultTable() {
             document.getElementById('score-table').innerHTML = '<thead class="thead-light"><tr><th scope="col">Groep</th> \
-                                <th scope="col">Units Gevraagd</th><th scope="col">Units verkocht</th> \
+                                <th scope="col">Klanten</th><th scope="col">Units verkocht</th> \
                                 <th scope="col">Verkoopprijs</th><th scope="col">Omzet</th> \
-                                <th scope="col">Promokosten</th><th scope="col">Aangekochte units</th>\
+                                <th scope="col">Promokosten</th><th scope="col">Units gekocht</th>\
                                 <th scope="col">Aankoopkost</th><th scope="col">Winst</th><th scope="col">Eindvoorraad</th></tr></thead>';
             let html = '<tbody>';
             let roundResult = rounds['round' + currentRound];
@@ -13927,12 +13989,13 @@
                 html += '<tr><th scope="row">' + groups[groupkey]['name'] + '</th>';
                 html += '<td>' + roundResult[groupkey]['unitsDemanded'] + '</td>';
                 html += '<td>' + roundResult[groupkey]['unitsSold'] + '</td>';
-                html += '<td>' + roundResult[groupkey]['price'] + '</td>';
-                html += '<td>' + roundResult[groupkey]['sales'] + '</td>';
-                html += '<td>' + roundResult[groupkey]['promocost'] + '</td>';
+                html += '<td>'
+                    + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(roundResult[groupkey]['price']) + '</td>';
+                html += '<td>' + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(roundResult[groupkey]['sales']) + '</td>';
+                html += '<td>' + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(roundResult[groupkey]['promocost']) + '</td>';
                 html += '<td>' + roundResult[groupkey]['qty'] + '</td>';
-                html += '<td>' + roundResult[groupkey]['purchaseCost'] + '</td>';
-                html += '<td>' + roundResult[groupkey]['profit'] + '</td>';
+                html += '<td>' + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(roundResult[groupkey]['purchaseCost']) + '</td>';
+                html += '<td>' + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(roundResult[groupkey]['profit']) + '</td>';
                 html += '<td>' + roundResult[groupkey]['endStock'] + '</td></tr>';
             }
 
@@ -14080,6 +14143,28 @@
                     }
                 }
             });
+        }
+
+        function generateTickerMessages() {
+            let messages = [];
+
+            if (typeof rounds['round' + currentRound] !== 'undefined') {
+                // check which group has the highest and which group has the lowest prices
+
+                // check which group had biggest sales
+
+                // check if any groups had customer frustration
+
+                // check if any random event took place
+            }
+
+            if (messages.length > 0) {
+                const tickerbox = document.querySelector('#tickerbox ul');
+                tickerbox.innerHTML = '';
+                for (let i = 0; i < messages.length; i++) {
+                    tickerbox.innerHTML += '<li>' + messages[i] + '</li>';
+                }
+            }
         }
 
     </script>
