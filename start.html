@@ -13648,7 +13648,8 @@
                         <div>
                             <canvas id="myChart"></canvas>
                         </div>
-                        <button type="button" class="btn btn-primary" id="btn-next-round" onclick="showRoundInput()">Volgende ronde</button>
+                        <br />
+                        <button type="button" class="btn btn-success" id="btn-next-round" onclick="showRoundInput()">Volgende ronde</button>
                         <br />
                     </div>
                 </div>
@@ -13664,7 +13665,7 @@
                 <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">
                     <form id="form-settings" class="needs-validation" novalidate>
                         <table id="settings-table" class="table"></table>
-                        <button type="submit" class="btn btn-danger">Updaten</button>
+                        <button type="submit" class="btn btn-success">Updaten</button>
                         <br />
                         <div id="settingsToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
@@ -13878,7 +13879,7 @@
                 document.getElementById('input-table').appendChild(row);
             }
             document.getElementById('input-table').innerHTML +=
-                '<button type="submit" class="btn btn-danger">Definitief indienen</button>';
+                '<br /><button type="submit" class="btn btn-success">Definitief indienen</button>';
         }
 
         function generateSettingsPage() {
