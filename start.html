@@ -13595,7 +13595,7 @@
     <div class="container">
         <header>
             <br />
-            <h1>Simulatiespel (prototype)</h1>
+            <h1 class="text-primary-emphasis">Simulatiespel</h1>
         </header>
         <br />
         <div id="ticker-box" class="p-3 bg-dark text-warning rounded-3 align-top" 
@@ -13611,19 +13611,19 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
-                        role="tab" aria-controls="home-tab-pane" aria-selected="false">
+                        role="tab" aria-controls="home-tab-pane" aria-selected="false" disabled>
                     Overzicht
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="round-input-tab" data-bs-toggle="tab" data-bs-target="#round-input-tab-pane"
-                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" onclick="showRoundInput()">
+                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" disabled onclick="showRoundInput()">
                     Ronde Input
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button"
-                        role="tab" aria-controls="settings-tab-pane" aria-selected="false">
+                        role="tab" aria-controls="settings-tab-pane" aria-selected="false" disabled>
                     Groepsinstellingen
                 </button>
             </li>
@@ -13749,6 +13749,18 @@
                         power: basePower
                     };
                 }
+                const triggerTabList = document.querySelectorAll('#myTab button');
+                triggerTabList.forEach(triggerEl => {
+                    const tabTrigger = new bootstrap.Tab(triggerEl);
+                    triggerEl.addEventListener('click', event => {
+                        event.preventDefault();
+                        tabTrigger.show();
+                    });
+                });
+                
+                bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]'))._element.disabled = false;
+                bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#settings-tab-pane"]'))._element.disabled = false;
+
                 generateSettingsPage();
                 showRoundInput();
                 
@@ -13804,14 +13816,7 @@
         }
 
         function showRoundInput() {
-            const triggerTabList = document.querySelectorAll('#myTab button');
-            triggerTabList.forEach(triggerEl => {
-                const tabTrigger = new bootstrap.Tab(triggerEl);
-                triggerEl.addEventListener('click', event => {
-                    event.preventDefault();
-                    tabTrigger.show();
-                });
-            });
+            
 
             bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]')).show();
 
@@ -13907,6 +13912,7 @@
             }
             calculateMarketValues();
             saveToStorage();
+            bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#home-tab-pane"]'))._element.disabled = false;
             showResult();
         }
 
