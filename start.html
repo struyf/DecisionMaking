@@ -13996,7 +13996,7 @@
             currentCustomEvent = null;
             if (currentRound > 1 && customEvents.length) {
                 const randomNumber = Math.random();
-                if (+(randomNumber.toString().slice(-1)) > 4) { // only 50% chance for custom event
+                if (+(randomNumber.toString().slice(-1)) > 2) { // 70% chance for custom event
                     // Now select a custom event
                     const keychosen = Math.round(randomNumber * (customEvents.length - 1));
                     currentCustomEvent = customEvents[keychosen];
