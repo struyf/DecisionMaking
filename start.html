@@ -13509,7 +13509,7 @@
 
         function startTicker(id, param) {
             let tickerBox = document.getElementById(id);
-            let defaultParam = { speed: 10, delay: 500, rotate: true };
+            let defaultParam = { speed:11, delay: 500, rotate: true };
             let extendedParam = extend(defaultParam, param);
             applyStyles(tickerBox, { overflow: "hidden", 'min-height': '50px' });
             let ul = tickerBox.getElementsByTagName("ul");
@@ -13607,10 +13607,10 @@
                         Vandaag is het
                         <script>document.write(new Date().toLocaleDateString('nl-BE'));</script>
                     </span> ***
-                    Grootbanken investeren in nieuwe retailers voor technologiemarkt. Nieuwe aanbieders van smartphones op komst in ons land. Nationale Bank: "Minder monopolie, meer mogelijkheden". ***
-                    Economen tevreden over extra concurrentie op telefoniemarkt: "Dit gaat veel nieuwe banen scheppen". ***
-                    Eco-activisten bezorgd over elektronica afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers. ***
-                    Scholieren almaar verstandiger, psychologen staan voor een raadsel. Leerkrachtenkoepel vreest voor banenverlies in traditioneel onderwijs.
+                    Grootbanken investeren in nieuwe retailers voor technologiemarkt. Nieuwe aanbieders van smartphones op komst in ons land. Nationale Bank: "Minder monopolie, meer mogelijkheden" ***
+                    Economen tevreden over extra concurrentie op telefoniemarkt: "Dit gaat veel nieuwe banen scheppen" ***
+                    Eco-activisten bezorgd over elektronica afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers ***
+                    Scholieren almaar verstandiger, psychologen staan voor een raadsel. Leerkrachtenkoepel vreest voor banenverlies in traditioneel onderwijs
                 </li>
             </ul>
         </div>
@@ -13686,6 +13686,7 @@
                     <div id="round-input-screen">
                         <h2 id="round-indicator">Dit is ronde 1</h2>
                         <p id="market-conditions">De aankoopprijs bij de leverancier is momenteel <strong>88.12 €</strong>. De marktgrootte is <strong>10000</strong> klanten.</p>
+                        <p>De prijs van het promotie basispakket is <strong>50 000 €</strong>. Het luxepakket bedraagt <strong>100 000 €</strong>.</p>
                         <p>Vul de gegevens in die elke groep gekozen heeft:</p>
                         <form id="form-input" class="needs-validation" novalidate>
                             <table id="input-table" class="table"></table>
@@ -13749,42 +13750,42 @@
 
         const customEvents = [{
             title: 'Leveringsproblemen bij smartphones',
-            ticker: 'Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen.',
+            ticker: 'Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen',
             description: 'Door productieproblemen met halfgeleiders kan slechts de helft van de bestelde hoeveelheid geleverd worden.',
             effectType: 'unitsPurchased',
             effectFactor: 0.5,
             image64: ''
         }, {
             title: 'Extra invoertaks voor smartphones van 10%',
-            ticker: 'Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten".',
+            ticker: 'Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten"',
             description: 'De overheid voert een extra invoerbelasting in van 10%. De aankoopkost neemt hierdoor toe.',
             effectType: 'basePrice',
             effectFactor: 1.1,
             image64: ''
         }, {
             title: 'Afzetmarkt krimpt door stijgende levenskost',
-            ticker: 'Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers".',
+            ticker: 'Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"',
             description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone.',
             effectType: 'marketSize',
             effectFactor: 0.8,
             image64: ''
         }, {
             title: 'Afzetmarkt groeit dankzij hogere lonen',
-            ticker: 'Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte".',
+            ticker: 'Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"',
             description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen.',
             effectType: 'marketSize',
             effectFactor: 1.33,
             image64: ''
         }, {
             title: 'Prijsverhoging bij leveranciers',
-            ticker: 'Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze".',
+            ticker: 'Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"',
             description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien.',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
         }, {
             title: 'Extra milieutaks van 5%',
-            ticker: 'Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%.',
+            ticker: 'Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%',
             description: 'De overheid verhoogt de milieutaks voor smartphones. Onze aankoopprijs stijgt met 5%.',
             effectType: 'basePrice',
             effectFactor: 1.05,
@@ -13978,7 +13979,7 @@
                 if (inputs.length > 0) {
                     rounds['round' + currentRound]['group' + i] = {};
                     rounds['round' + currentRound]['group' + i]['name'] = groups['group' + i]['name'];
-                    rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value);
+                    rounds['round' + currentRound]['group' + i]['price'] = parseFloat(inputs[0].value.replace(',','.'));
                     rounds['round' + currentRound]['group' + i]['qty'] = parseInt(inputs[1].value);
                     rounds['round' + currentRound]['group' + i]['promoBasic'] = inputs[2].checked;
                     rounds['round' + currentRound]['group' + i]['promoPremium'] = inputs[3].checked;
@@ -14005,7 +14006,7 @@
                         case 'unitsPurchased':
                             for (let i = 1; i <= iGroups; i++) {
                                 let qty = rounds['round' + currentRound]['group' + i]['qty'];
-                                rounds['round' + currentRound]['group' + i]['qty'] = Math.round(qty * effectFactor);
+                                rounds['round' + currentRound]['group' + i]['qty'] = Math.round(qty * currentCustomEvent.effectFactor);
                             }
                             break;
                         case 'basePrice':
@@ -14285,8 +14286,8 @@
 
         function generateTickerMessages() {
             let messages = [
-                'Eco-activisten bezorgd over groeiende elektronica-afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers.',
-                'Scholieren almaar verstandiger, psychologen staan voor een raadsel. Leerkrachtenkoepel vreest voor banenverlies in traditioneel onderwijs.'
+                'Eco-activisten bezorgd over groeiende elektronica-afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers',
+                'Scholieren almaar verstandiger, psychologen staan voor een raadsel. Leerkrachtenkoepel vreest voor banenverlies in traditioneel onderwijs'
             ];
 
             if (typeof rounds['round' + currentRound] !== 'undefined') {
@@ -14297,7 +14298,7 @@
                 let groupBiggestSale = currentRoundObject['group1'];
 
                 if (currentRoundObject['group1']['endStock'] == 0)
-                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name'] + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!".');
+                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name'] + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
 
                 for (let i = 2; i <= iGroups; i++) {
                     // check which group had biggest sales
@@ -14311,11 +14312,12 @@
                         groupHighest = currentRoundObject['group' + i];
 
                     if (currentRoundObject['group' + i]['endStock'] == 0)
-                        messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group' + i]['name'] + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!".');
+                        messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group' + i]['name']
+                            + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
                 }
 
                 messages.push('<span class="text-success">' + groupLowest['name'] + '</span> heeft de goedkoopste smartphone op de markt! Slechts ' + groupLowest['price'] + ' €');
-                messages.push('<span class="text-primary">' + groupHighest['name'] + '</span> biedt de duurste smartphone aan in het assortiment. Klanten tellen ' + groupHighest['price'] + ' € neer voor een toestel.');
+                messages.push('<span class="text-primary">' + groupHighest['name'] + '</span> biedt de duurste smartphone aan in het assortiment. Klanten tellen ' + groupHighest['price'] + ' € neer voor een toestel');
                 messages.push('<span class="text-primary">' + groupBiggestSale['name'] + '</span> boekt hoogste omzet op smartphone-markt: ' + new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(groupBiggestSale['sales']));
 
 
@@ -14327,7 +14329,10 @@
 
             if (messages.length > 0) {
                 messages.reverse();
-                document.getElementById('ticker-line').innerHTML = '<span class="text-info">Vandaag is het ' + new Date().toLocaleDateString('nl-BE') + '</span>&nbsp;&nbsp;***&nbsp;&nbsp;' + messages.join('&nbsp;&nbsp;***&nbsp;&nbsp;');
+                let futureDate = new Date();
+                futureDate.setMonth(futureDate.getMonth() + 3 * (currentRound));
+                document.getElementById('ticker-line').innerHTML =
+                    '<span class="text-info">Vandaag is het ' + futureDate.toLocaleDateString('nl-BE') + '</span>&nbsp;&nbsp;***&nbsp;&nbsp;' + messages.join('&nbsp;&nbsp;***&nbsp;&nbsp;');
             }
         }
 
