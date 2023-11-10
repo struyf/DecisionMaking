@@ -14021,8 +14021,12 @@
         }
 
         function saveToStorage() {
-            localStorage.setItem('rounds', JSON.stringify(rounds));
-            localStorage.setItem('groups', JSON.stringify(groups));
+            let session = {};
+            session['rounds'] = JSON.stringify(rounds);
+            session['groups'] = JSON.stringify(groups);
+            let sessions = [session];
+
+            localStorage.setItem('sessions', JSON.stringify(sessions));
         }
 
         function loadFromStorage() {
