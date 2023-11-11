@@ -13767,6 +13767,20 @@
         let myChart;
         let currentCustomEvent = null;
 
+        const outOfStockQuotes = [
+            'Ik wacht al weken op die nieuwe smartphone, maar het lijkt erop dat ik nog langer moet wachten.',
+            'Ik had gehoopt mijn oude telefoon te vervangen, maar het lijkt erop dat ik nog wat langer moet wachten.',
+            'Wanneer komt de nieuwe voorraad binnen? Ik kan niet langer wachten!',
+            'Ik had gehoopt om vandaag een nieuwe smartphone te kopen, maar het lijkt erop dat het niet gaat gebeuren.',
+            'De geruchten over deze nieuwe telefoon waren geweldig, maar nu kan ik er geen krijgen!',
+            'Mijn oude telefoon begint echt te haperen, dus ik had gehoopt op een upgrade.',
+            'Geen nieuwe smartphones in de winkel? Echt teleurstellend!',
+            'Uitverkochte nieuwe smartphones? Dit is zo frustrerend!',
+            'Adverteren voor smartphones zonder voorraad is misleidend!',
+            'Vrije dag verspild - geen nieuwe telefoon beschikbaar.',
+            'Trouwe klant, maar dit gebrek aan voorraad is teleurstellend.',
+            'Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!'
+        ];
         const customEvents = [{
             title: 'Leveringsproblemen bij smartphones',
             ticker: ['Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen'],
@@ -14328,6 +14342,10 @@
             });
         }
 
+        function getRandomOutOfStockQuote() {
+            return outOfStockQuotes[Math.floor(Math.random() * outOfStockQuotes.length)];
+        }
+
         function generateTickerMessages() {
             let messages = [
                 'Eco-activisten bezorgd over groeiende elektronica-afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers',
@@ -14341,9 +14359,12 @@
                 let groupHighest = currentRoundObject['group1'];
                 let groupBiggestSale = currentRoundObject['group1'];
 
-                if (currentRoundObject['group1']['endStock'] == 0)
-                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name'] + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
+                if (currentRoundObject['group1']['endStock'] == 0) {
+                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name']
+                        + '</span>. Klanten misnoegd over uitgeputte voorraden: "' + getRandomOutOfStockQuote() + '"');
 
+                }
+                    
                 for (let i = 2; i <= iGroups; i++) {
                     // check which group had biggest sales
                     if (currentRoundObject['group' + i]['sales'] > groupBiggestSale['sales'])
@@ -14357,7 +14378,7 @@
 
                     if (currentRoundObject['group' + i]['endStock'] == 0)
                         messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group' + i]['name']
-                            + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
+                            + '</span>. Klanten misnoegd over uitgeputte voorraden: "' + getRandomOutOfStockQuote() +'"');
                 }
 
                 messages.push('<span class="text-success">' + groupLowest['name'] + '</span> heeft de goedkoopste smartphone op de markt! Slechts € ' + groupLowest['price']);
@@ -14367,7 +14388,13 @@
 
                 // check if any random event took place
                 if (currentCustomEvent != null) {
-                    messages.push(currentCustomEvent.ticker);
+                    if (currentCustomEvent.ticker.length > 1) {
+
+                    }
+                    else {
+                        messages.push(currentCustomEvent.ticker[0]);
+                    }
+                    
                 }
             }
 
