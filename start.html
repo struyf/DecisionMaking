@@ -13742,65 +13742,64 @@
         let iGroups = 1;
         let currentRound = 1;
         let marketSize = 10000;
-        let basePrice = 88.12;
-        const promoBasic = 50000;
-        const promoPremium = 100000;
+        let basePrice = 88.12;    
         let myChart;
         let currentCustomEvent = null;
 
         const customEvents = [{
             title: 'Leveringsproblemen bij smartphones',
-            ticker: 'Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen',
+            ticker: ['Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen'],
             description: 'Door productieproblemen met halfgeleiders kan slechts de helft van de bestelde hoeveelheid geleverd worden.',
             effectType: 'unitsPurchased',
             effectFactor: 0.5,
             image64: ''
         }, {
             title: 'Extra invoertaks voor smartphones van 10%',
-            ticker: 'Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten"',
+            ticker: ['Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten"'],
             description: 'De overheid voert een extra invoerbelasting in van 10%. De aankoopkost neemt hierdoor toe.',
             effectType: 'basePrice',
             effectFactor: 1.1,
             image64: ''
         }, {
             title: 'Afzetmarkt krimpt door stijgende levenskost',
-            ticker: 'Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"',
+            ticker: ['Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"'],
             description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone.',
             effectType: 'marketSize',
             effectFactor: 0.8,
             image64: ''
         }, {
             title: 'Afzetmarkt groeit dankzij hogere lonen',
-            ticker: 'Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"',
+            ticker: ['Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"'],
             description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen.',
             effectType: 'marketSize',
             effectFactor: 1.33,
             image64: ''
         }, {
             title: 'Prijsverhoging bij leveranciers',
-            ticker: 'Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"',
+            ticker: ['Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"'],
             description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien.',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
         }, {
             title: 'Extra milieutaks van 5%',
-            ticker: 'Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%',
+            ticker: ['Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%'],
             description: 'De overheid verhoogt de milieutaks voor smartphones. Onze aankoopprijs stijgt met 5%.',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
         }];
-
-        //checkExistingGame();
-
-        //start ticker
-        startTicker('ticker-box');
-
         const toastElList = document.querySelectorAll('.toast');
         const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl));
         const toastSettings = bootstrap.Toast.getOrCreateInstance(document.getElementById('settingsToast'));
         const eventModal = new bootstrap.Modal('#event-modal');
+        const promoBasic = 50000;
+        const promoPremium = 100000;
+
+        //start ticker
+        startTicker('ticker-box');
+
+        checkExistingGame();
 
 
         function startGame() {
@@ -13882,8 +13881,9 @@
         }
 
         function checkExistingGame() {
-            loadFromStorage();
-            if (typeof rounds.round1 !== 'undefined') {
+            let data = loadFromStorage();
+            if (data != null) {
+                // Ask if we should restore this data or start a new game?
 
             }
         }
@@ -14021,27 +14021,21 @@
         }
 
         function saveToStorage() {
+            const d = new Date();
             let session = {};
-            session['rounds'] = JSON.stringify(rounds);
-            session['groups'] = JSON.stringify(groups);
-            let sessions = [session];
 
-            localStorage.setItem('sessions', JSON.stringify(sessions));
+            session['rounds'] = rounds;
+            session['groups'] = groups;
+            session['lastSaved'] = d.toLocaleString();
+
+            let data = JSON.stringify(session);
+
+            localStorage.setItem('data', data);
         }
 
         function loadFromStorage() {
             try {
-                rounds = JSON.parse(localStorage.getItem('rounds'));
-                if (rounds == null)
-                    rounds = {};
-                groups = JSON.parse(localStorage.getItem('groups'));
-                if (groups == null) {
-                    groups = {};
-                    rounds = {}; // reset rounds too
-                }
-
-                console.log(rounds);
-                console.log(groups);
+                return JSON.parse(localStorage.getItem('data'));
             }
             catch (err) {
                 console.log(err);
