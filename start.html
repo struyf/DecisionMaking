@@ -13618,26 +13618,26 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
-                        role="tab" aria-controls="home-tab-pane" aria-selected="false" disabled>
+                        role="tab" aria-controls="home-tab-pane" aria-selected="false">
                     Overzicht
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="round-input-tab" data-bs-toggle="tab" data-bs-target="#round-input-tab-pane"
-                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" disabled onclick="showRoundInput()">
+                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" onclick="showRoundInput()">
                     Ronde Input
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button"
-                        role="tab" aria-controls="settings-tab-pane" aria-selected="false" disabled>
+                        role="tab" aria-controls="settings-tab-pane" aria-selected="false">
                     Groepsinstellingen
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="start-tab" data-bs-toggle="tab" data-bs-target="#start-tab-pane"
-                        type="button" role="tab" aria-controls="start-tab-pane" aria-selected="true" disabled>
-                    Start Spel
+                        type="button" role="tab" aria-controls="start-tab-pane" aria-selected="true">
+                    Start nieuw spel
                 </button>
             </li>
         </ul>
@@ -13850,9 +13850,6 @@
                     tabTrigger.show();
                 });
             });
-
-            bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]'))._element.disabled = false;
-            bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#settings-tab-pane"]'))._element.disabled = false;
 
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             const forms = document.querySelectorAll('.needs-validation');
