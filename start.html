@@ -13596,7 +13596,7 @@
     <div class="container">
         <header>
             <br />
-            <h1 class="text-primary-emphasis">Simulatiespel</h1>
+            <h1 class="text-primary-emphasis display-3">Simulatiespel</h1>
         </header>
         <br />
         <div id="ticker-box" class="p-3 bg-dark text-warning rounded-3 align-top"
@@ -13646,21 +13646,21 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                     <div id="score-screen">
-                        <h2 id="round-indicator-results">Ronde 1 Resultaat</h2>
+                        <h2 id="round-indicator-results" class="display-5">Ronde 1 Resultaat</h2>
                         <br />
-                        <div id="event-modal" class="modal" tabindex="-1">
+                        <div id="event-modal" class="modal modal-xl" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <svg style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                                        <svg style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
                                             <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z" />
                                             <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z" />
                                         </svg>
-                                        <h5 id="event-modal-title" class="modal-title">Modal title</h5>
+                                        <h2 id="event-modal-title" class="modal-title display-5">Modal title</h2>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p id="event-modal-body">Modal body text goes here.</p>
+                                        <h4 id="event-modal-body" class="display-6">Modal body text goes here.</h4>
                                         <img id="event-modal-image" src="" />
                                     </div>
                                     <div class="modal-footer">
@@ -13670,7 +13670,7 @@
                             </div>
                         </div>
                         <table id="score-table" class="table table-striped table-bordered table-hover"></table>
-                        <h3>Rangschikking volgens marktwaarde</h3>
+                        <h3 class="display-5">Rangschikking volgens marktwaarde</h3>
                         <br />
                         <table id="market-value" class="table table-striped table-bordered table-hover"></table>
                         <button type="button" class="btn btn-success" id="btn-next-round" onclick="showRoundInput()">Volgende ronde</button>
@@ -13687,7 +13687,7 @@
                 </div>
                 <div class="tab-pane fade" id="round-input-tab-pane" role="tabpanel" aria-labelledby="round-input-tab" tabindex="0">
                     <div id="round-input-screen">
-                        <h2 id="round-indicator">Dit is ronde 1</h2>
+                        <h2 id="round-indicator" class="display-5">Dit is ronde 1</h2>
                         <p id="market-conditions">De aankoopprijs bij de leverancier is momenteel <strong>88.12 €</strong>. De marktgrootte is <strong>10000</strong> klanten.</p>
                         <p>De prijs van het promotie basispakket is <strong>50 000 €</strong>. Het luxepakket bedraagt <strong>100 000 €</strong>.</p>
                         <p>Vul de gegevens in die elke groep gekozen heeft:</p>
@@ -13802,21 +13802,21 @@
         }, {
             title: 'Afzetmarkt krimpt door stijgende levenskost',
             ticker: ['Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"'],
-            description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone.',
+            description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone. De afzetmarkt daalt met 20%.',
             effectType: 'marketSize',
             effectFactor: 0.8,
             image64: ''
         }, {
             title: 'Afzetmarkt groeit dankzij hogere lonen',
             ticker: ['Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"'],
-            description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen.',
+            description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen: "Afzetmarkt neemt toe met 33%"',
             effectType: 'marketSize',
             effectFactor: 1.33,
             image64: ''
         }, {
             title: 'Prijsverhoging bij leveranciers',
             ticker: ['Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"'],
-            description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien.',
+            description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien: "Prijzen stijgen met 5%"',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
@@ -14296,7 +14296,7 @@
             let data = []
             for (let i = 0; i < iGroups; i++) {
                 const groupkey = 'group' + (i + 1);
-                labels.push(groups[groupkey]['name']);
+                labels.push(groups[groupkey]['name'] + ': ' + rounds['round' + currentRound][groupkey]['marketShare']+'%');
                 data.push(rounds['round' + currentRound][groupkey]['marketShare']);
             }
 
