@@ -13596,7 +13596,7 @@
     <div class="container">
         <header>
             <br />
-            <h1 class="text-primary-emphasis">Simulatiespel</h1>
+            <h1 class="text-primary-emphasis display-3">Simulatiespel</h1>
         </header>
         <br />
         <div id="ticker-box" class="p-3 bg-dark text-warning rounded-3 align-top"
@@ -13606,10 +13606,10 @@
                     <span class="text-info">
                         Vandaag is het
                         <script>document.write(new Date().toLocaleDateString('nl-BE'));</script>
-                    </span> ***
-                    Grootbanken investeren in nieuwe retailers voor technologiemarkt. Nieuwe aanbieders van smartphones op komst in ons land. Nationale Bank: "Minder monopolie, meer mogelijkheden" ***
-                    Economen tevreden over extra concurrentie op telefoniemarkt: "Dit gaat veel nieuwe banen scheppen" ***
-                    Eco-activisten bezorgd over elektronica afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers ***
+                    </span>&nbsp;&nbsp;***&nbsp;&nbsp;
+                    Grootbanken investeren in nieuwe retailers voor technologiemarkt. Nieuwe aanbieders van smartphones op komst in ons land. Nationale Bank: "Minder monopolie, meer mogelijkheden"&nbsp;&nbsp;***&nbsp;&nbsp;
+                    Economen tevreden over extra concurrentie op telefoniemarkt: "Dit gaat veel nieuwe banen scheppen"&nbsp;&nbsp;***&nbsp;&nbsp;
+                    Eco-activisten bezorgd over elektronica afvalberg. Milieu-organisaties dringen aan op meer regelgeving voor producenten en retailers&nbsp;&nbsp;***&nbsp;&nbsp;
                     Scholieren almaar verstandiger, psychologen staan voor een raadsel. Leerkrachtenkoepel vreest voor banenverlies in traditioneel onderwijs
                 </li>
             </ul>
@@ -13618,26 +13618,26 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button"
-                        role="tab" aria-controls="home-tab-pane" aria-selected="false" disabled>
+                        role="tab" aria-controls="home-tab-pane" aria-selected="false">
                     Overzicht
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="round-input-tab" data-bs-toggle="tab" data-bs-target="#round-input-tab-pane"
-                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" disabled onclick="showRoundInput()">
+                        type="button" role="tab" aria-controls="round-input-tab-pane" aria-selected="false" onclick="showRoundInput()">
                     Ronde Input
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-tab-pane" type="button"
-                        role="tab" aria-controls="settings-tab-pane" aria-selected="false" disabled>
+                        role="tab" aria-controls="settings-tab-pane" aria-selected="false">
                     Groepsinstellingen
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="start-tab" data-bs-toggle="tab" data-bs-target="#start-tab-pane"
-                        type="button" role="tab" aria-controls="start-tab-pane" aria-selected="true" disabled>
-                    Start Spel
+                        type="button" role="tab" aria-controls="start-tab-pane" aria-selected="true" onclick="(function () { location.reload(); })();">
+                    Start Nieuw Spel
                 </button>
             </li>
         </ul>
@@ -13646,21 +13646,21 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                     <div id="score-screen">
-                        <h2 id="round-indicator-results">Ronde 1 Resultaat</h2>
+                        <h2 id="round-indicator-results" class="display-5">Ronde 1 Resultaat</h2>
                         <br />
-                        <div id="event-modal" class="modal" tabindex="-1">
+                        <div id="event-modal" class="modal modal-xl" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <svg style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                                        <svg style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
                                             <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z" />
                                             <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z" />
                                         </svg>
-                                        <h5 id="event-modal-title" class="modal-title">Modal title</h5>
+                                        <h2 id="event-modal-title" class="modal-title display-5">Modal title</h2>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p id="event-modal-body">Modal body text goes here.</p>
+                                        <h4 id="event-modal-body" class="display-6">Modal body text goes here.</h4>
                                         <img id="event-modal-image" src="" />
                                     </div>
                                     <div class="modal-footer">
@@ -13670,10 +13670,13 @@
                             </div>
                         </div>
                         <table id="score-table" class="table table-striped table-bordered table-hover"></table>
-                        <h3>Rangschikking volgens marktwaarde</h3>
+                        <h3 class="display-5">Rangschikking volgens marktwaarde</h3>
                         <br />
                         <table id="market-value" class="table table-striped table-bordered table-hover"></table>
                         <button type="button" class="btn btn-success" id="btn-next-round" onclick="showRoundInput()">Volgende ronde</button>
+                        <div>
+                            <canvas id="myPieChart"></canvas>
+                        </div>
                         <div>
                             <canvas id="myChart"></canvas>
                         </div>
@@ -13684,7 +13687,7 @@
                 </div>
                 <div class="tab-pane fade" id="round-input-tab-pane" role="tabpanel" aria-labelledby="round-input-tab" tabindex="0">
                     <div id="round-input-screen">
-                        <h2 id="round-indicator">Dit is ronde 1</h2>
+                        <h2 id="round-indicator" class="display-5">Dit is ronde 1</h2>
                         <p id="market-conditions">De aankoopprijs bij de leverancier is momenteel <strong>88.12 €</strong>. De marktgrootte is <strong>10000</strong> klanten.</p>
                         <p>De prijs van het promotie basispakket is <strong>50 000 €</strong>. Het luxepakket bedraagt <strong>100 000 €</strong>.</p>
                         <p>Vul de gegevens in die elke groep gekozen heeft:</p>
@@ -13709,6 +13712,27 @@
                     </form>
                 </div>
                 <div class="tab-pane fade show active" id="start-tab-pane" role="tabpanel" aria-labelledby="start-tab" tabindex="0">
+                    <div id="session-modal" class="modal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <svg style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-newspaper" viewBox="0 0 16 16">
+                                        <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.528c0 .3-.05.654-.238.972h.738a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 1 1 0v9a1.5 1.5 0 0 1-1.5 1.5H1.497A1.497 1.497 0 0 1 0 13.5v-11zM12 14c.37 0 .654-.211.853-.441.092-.106.147-.279.147-.531V2.5a.5.5 0 0 0-.5-.5h-11a.5.5 0 0 0-.5.5v11c0 .278.223.5.497.5H12z" />
+                                        <path d="M2 3h10v2H2V3zm0 3h4v3H2V6zm0 4h4v1H2v-1zm0 2h4v1H2v-1zm5-6h2v1H7V6zm3 0h2v1h-2V6zM7 8h2v1H7V8zm3 0h2v1h-2V8zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1zm-3 2h2v1H7v-1zm3 0h2v1h-2v-1z" />
+                                    </svg>
+                                    <h5 id="session-modal-title" class="modal-title">Vorige speelsessie gevonden</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="event-modal-body">In deze browser werden gegevens van een vorig spel gevonden. Wenst u hiermee verder te spelen of een nieuw spel te beginnen?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="restoreExistingGame()" data-bs-dismiss="modal">Verder spelen</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nieuw spel starten</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div id="start-game-screen">
                         <div class="row g-3 align-items-center">
                             <p class="text-bg-primary p-3">Tip: Druk op F11 om naar volledig scherm te gaan.</p>
@@ -13725,7 +13749,7 @@
                             </div>
                         </div>
                         <br />
-                        <button type="button" class="btn btn-success" id="btn-start" onclick="startGame()">Start Spel</button>
+                        <button type="button" class="btn btn-success" id="btn-start" onclick="startGame()">Start Nieuw Spel</button>
 
                     </div>
                 </div>
@@ -13742,66 +13766,119 @@
         let iGroups = 1;
         let currentRound = 1;
         let marketSize = 10000;
-        let basePrice = 88.12;
-        const promoBasic = 50000;
-        const promoPremium = 100000;
+        let basePrice = 88.12;    
         let myChart;
+        let myPieChart;
         let currentCustomEvent = null;
 
+        const outOfStockQuotes = [
+            'Ik wacht al weken op die nieuwe smartphone, maar het lijkt erop dat ik nog langer moet wachten.',
+            'Ik had gehoopt mijn oude telefoon te vervangen, maar het lijkt erop dat ik nog wat langer moet wachten.',
+            'Wanneer komt de nieuwe voorraad binnen? Ik kan niet langer wachten!',
+            'Ik had gehoopt om vandaag een nieuwe smartphone te kopen, maar het lijkt erop dat het niet gaat gebeuren.',
+            'De geruchten over deze nieuwe telefoon waren geweldig, maar nu kan ik er geen krijgen!',
+            'Mijn oude telefoon begint echt te haperen, dus ik had gehoopt op een upgrade.',
+            'Geen nieuwe smartphones in de winkel? Echt teleurstellend!',
+            'Uitverkochte nieuwe smartphones? Dit is zo frustrerend!',
+            'Adverteren voor smartphones zonder voorraad is misleidend!',
+            'Vrije dag verspild - geen nieuwe telefoon beschikbaar.',
+            'Trouwe klant, maar dit gebrek aan voorraad is teleurstellend.',
+            'Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!'
+        ];
         const customEvents = [{
             title: 'Leveringsproblemen bij smartphones',
-            ticker: 'Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen',
+            ticker: ['Leveringsproblemen bij smartphones door tekort aan halfgeleiders. Winkels ontvangen slechts de helft van bestellingen'],
             description: 'Door productieproblemen met halfgeleiders kan slechts de helft van de bestelde hoeveelheid geleverd worden.',
             effectType: 'unitsPurchased',
             effectFactor: 0.5,
             image64: ''
         }, {
             title: 'Extra invoertaks voor smartphones van 10%',
-            ticker: 'Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten"',
+            ticker: ['Overheid schakelt versnelling hoger tegen elektronica-afvalberg: "Retailers moeten 10% extra ophoesten"'],
             description: 'De overheid voert een extra invoerbelasting in van 10%. De aankoopkost neemt hierdoor toe.',
             effectType: 'basePrice',
             effectFactor: 1.1,
             image64: ''
         }, {
             title: 'Afzetmarkt krimpt door stijgende levenskost',
-            ticker: 'Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"',
-            description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone.',
+            ticker: ['Algemene koopkracht van consumenten daalt: "Slecht nieuws voor winkeliers"'],
+            description: 'De koopkracht van de klanten daalt. Minder mensen kopen een smartphone. De afzetmarkt daalt met 20%.',
             effectType: 'marketSize',
             effectFactor: 0.8,
             image64: ''
         }, {
             title: 'Afzetmarkt groeit dankzij hogere lonen',
-            ticker: 'Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"',
-            description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen.',
+            ticker: ['Hogere lonen eindelijk in zicht! Retailers rekenen op hogere omzet: "Eindelijk weer ademruimte"'],
+            description: 'Door een algemene betere verloning kunnen steeds meer mensen een nieuwe smartphone kopen: "Afzetmarkt neemt toe met 33%"',
             effectType: 'marketSize',
             effectFactor: 1.33,
             image64: ''
         }, {
             title: 'Prijsverhoging bij leveranciers',
-            ticker: 'Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"',
-            description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien.',
+            ticker: ['Inflatie laat zich voelen op alle markten. Fabrikanten verhogen prijzen: "We hebben geen andere keuze"'],
+            description: 'De leveranciers zien zich genoodzaakt om de prijs te herzien: "Prijzen stijgen met 5%"',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
         }, {
             title: 'Extra milieutaks van 5%',
-            ticker: 'Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%',
+            ticker: ['Milieu-activisten halen slag thuis: overheid verhoogt milieutaks over fabrieksprijs van smartphones met 5%'],
             description: 'De overheid verhoogt de milieutaks voor smartphones. Onze aankoopprijs stijgt met 5%.',
             effectType: 'basePrice',
             effectFactor: 1.05,
             image64: ''
         }];
-
-        //checkExistingGame();
-
-        //start ticker
-        startTicker('ticker-box');
-
         const toastElList = document.querySelectorAll('.toast');
         const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl));
         const toastSettings = bootstrap.Toast.getOrCreateInstance(document.getElementById('settingsToast'));
         const eventModal = new bootstrap.Modal('#event-modal');
+        const sessionModal = new bootstrap.Modal('#session-modal');
+        const promoBasic = 50000;
+        const promoPremium = 100000;
 
+        //start ticker
+        startTicker('ticker-box');
+
+        // prepare bootstrap elements
+        prepareGui();
+
+        // Check for previous data
+        checkExistingGame();
+
+        function prepareGui() {
+            const triggerTabList = document.querySelectorAll('#myTab button');
+            triggerTabList.forEach(triggerEl => {
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+                triggerEl.addEventListener('click', event => {
+                    event.preventDefault();
+                    tabTrigger.show();
+                });
+            });
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        if (form.id == 'form-input')
+                            finalizeRound();
+                        else if (form.id == 'form-settings')
+                            updateGroupNames();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false)
+            });
+        }
 
         function startGame() {
             iGroups = parseInt(document.getElementById('inputGroups').value);
@@ -13822,44 +13899,10 @@
                         power: basePower
                     };
                 }
-                const triggerTabList = document.querySelectorAll('#myTab button');
-                triggerTabList.forEach(triggerEl => {
-                    const tabTrigger = new bootstrap.Tab(triggerEl);
-                    triggerEl.addEventListener('click', event => {
-                        event.preventDefault();
-                        tabTrigger.show();
-                    });
-                });
-
-                bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#round-input-tab-pane"]'))._element.disabled = false;
-                bootstrap.Tab.getInstance(document.querySelector('#myTab button[data-bs-target="#settings-tab-pane"]'))._element.disabled = false;
+                
 
                 generateSettingsPage();
                 showRoundInput();
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                const forms = document.querySelectorAll('.needs-validation');
-
-                // Loop over them and prevent submission
-                Array.from(forms).forEach(form => {
-
-                    form.addEventListener('submit', event => {
-                        if (!form.checkValidity()) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        } else {
-                            event.preventDefault();
-                            event.stopPropagation();
-
-                            if (form.id == 'form-input')
-                                finalizeRound();
-                            else if (form.id == 'form-settings')
-                                updateGroupNames();
-                        }
-
-                        form.classList.add('was-validated');
-                    }, false)
-                })
             }
         }
 
@@ -13882,9 +13925,27 @@
         }
 
         function checkExistingGame() {
-            loadFromStorage();
-            if (typeof rounds.round1 !== 'undefined') {
+            let data = loadFromStorage();
+            if (data != null) {
+                // Ask if we should restore this data or start a new game?
+                sessionModal.show();
+            }
+        }
 
+        function restoreExistingGame() {
+            let data = loadFromStorage();
+            if (data != null) {
+                // Now restore the data
+                rounds = data['rounds'];
+                groups = data['groups'];
+                marketSize = data['marketSize'];
+                iGroups = Object.keys(groups).length;
+                currentRound = Object.keys(rounds).length;
+                generateSettingsPage();
+                bootstrap.Tab.getInstance(
+                    document.querySelector('#myTab button[data-bs-target="#home-tab-pane"]'))._element.disabled = false;
+                showResult();
+                console.log('restoration successful');
             }
         }
 
@@ -14021,27 +14082,22 @@
         }
 
         function saveToStorage() {
+            const d = new Date();
             let session = {};
-            session['rounds'] = JSON.stringify(rounds);
-            session['groups'] = JSON.stringify(groups);
-            let sessions = [session];
 
-            localStorage.setItem('sessions', JSON.stringify(sessions));
+            session['rounds'] = rounds;
+            session['groups'] = groups;
+            session['lastSaved'] = d.toLocaleString();
+            session['marketSize'] = marketSize;
+
+            let data = JSON.stringify(session);
+
+            localStorage.setItem('data', data);
         }
 
         function loadFromStorage() {
             try {
-                sessions = JSON.parse(localStorage.getItem('sessions'));
-                if (sessions == null) {
-                    rounds = {};
-                    groups = {};
-                }
-                else {
-
-                }
-
-                console.log(rounds);
-                console.log(groups);
+                return JSON.parse(localStorage.getItem('data'));
             }
             catch (err) {
                 console.log(err);
@@ -14055,6 +14111,7 @@
 
             generateResultTable();
             generateMarketValueTable();
+            generatePiechart();
             generateGraph();
             generateTickerMessages();
 
@@ -14068,7 +14125,6 @@
             document.getElementById('event-modal-body').textContent = currentCustomEvent.description;
             let imageEl = document.getElementById('event-modal-image');
             if (currentCustomEvent.image64 != '') {
-
                 imageEl.setAttribute('src', currentCustomEvent.image64);
             }
             else {
@@ -14230,13 +14286,67 @@
                 roundForThisGroup['capital'] = groups[groupkey]['capital'];
 
                 roundForThisGroup['finalImage'] = groups[groupkey]['image'];
+                roundForThisGroup['marketShare'] = Math.round(roundForThisGroup['unitsSold'] / marketSize * 100)
                 rounds['round' + currentRound][groupkey] = roundForThisGroup;
             }
         }
 
+        function generatePiechart() {
+            let labels = [];
+            let data = []
+            for (let i = 0; i < iGroups; i++) {
+                const groupkey = 'group' + (i + 1);
+                labels.push(groups[groupkey]['name'] + ': ' + rounds['round' + currentRound][groupkey]['marketShare']+'%');
+                data.push(rounds['round' + currentRound][groupkey]['marketShare']);
+            }
+
+            const ctx = document.getElementById('myPieChart');
+
+            if (typeof myPieChart !== 'undefined')
+                myPieChart.destroy();
+
+            
+
+            myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Marktaandeel',
+                        hoverOffset: 4,
+                        data:data
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Marktaandeel afgelopen kwartaal',
+                            position: 'top',
+                            align: 'center',
+                            font: {
+                                size: 36
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                font: {
+                                    size:24
+                                }
+                            }
+                        }
+                    },
+                    radius: 400,
+                    animation: {
+                        animateScale:true
+                    }
+                }
+            });
+        }
+
         function generateGraph() {
             // create labels
-            labels = [];
+            let labels = [];
             for (let i = 1; i <= currentRound; i++) {
                 labels.push('Ronde ' + i);
             }
@@ -14280,12 +14390,23 @@
                             position: 'top',
                             align: 'center',
                             font: {
-                                size: 24
+                                size: 36
+                            }
+                        },
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 24
+                                }
                             }
                         }
                     }
                 }
             });
+        }
+
+        function getRandomOutOfStockQuote() {
+            return outOfStockQuotes[Math.floor(Math.random() * outOfStockQuotes.length)];
         }
 
         function generateTickerMessages() {
@@ -14301,9 +14422,12 @@
                 let groupHighest = currentRoundObject['group1'];
                 let groupBiggestSale = currentRoundObject['group1'];
 
-                if (currentRoundObject['group1']['endStock'] == 0)
-                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name'] + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
+                if (currentRoundObject['group1']['endStock'] == 0) {
+                    messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group1']['name']
+                        + '</span>. Klanten misnoegd over uitgeputte voorraden: "' + getRandomOutOfStockQuote() + '"');
 
+                }
+                    
                 for (let i = 2; i <= iGroups; i++) {
                     // check which group had biggest sales
                     if (currentRoundObject['group' + i]['sales'] > groupBiggestSale['sales'])
@@ -14317,17 +14441,23 @@
 
                     if (currentRoundObject['group' + i]['endStock'] == 0)
                         messages.push('Lege rekken bij <span class="text-danger">' + currentRoundObject['group' + i]['name']
-                            + '</span>. Klanten misnoegd over uitgeputte voorraden: "Eerst ons naar de winkel lokken en ons dan zomaar naar huis terug sturen!"');
+                            + '</span>. Klanten misnoegd over uitgeputte voorraden: "' + getRandomOutOfStockQuote() +'"');
                 }
 
-                messages.push('<span class="text-success">' + groupLowest['name'] + '</span> heeft de goedkoopste smartphone op de markt! Slechts ' + groupLowest['price'] + ' €');
-                messages.push('<span class="text-primary">' + groupHighest['name'] + '</span> biedt de duurste smartphone aan in het assortiment. Klanten tellen ' + groupHighest['price'] + ' € neer voor een toestel');
+                messages.push('<span class="text-success">' + groupLowest['name'] + '</span> heeft de goedkoopste smartphone op de markt! Slechts € ' + groupLowest['price']);
+                messages.push('<span class="text-primary">' + groupHighest['name'] + '</span> biedt de duurste smartphone aan in het assortiment. Klanten tellen € ' + groupHighest['price'] + ' neer voor een toestel');
                 messages.push('<span class="text-primary">' + groupBiggestSale['name'] + '</span> boekt hoogste omzet op smartphone-markt: ' + new Intl.NumberFormat('nl-BE', { style: 'currency', currency: 'EUR' }).format(groupBiggestSale['sales']));
 
 
                 // check if any random event took place
                 if (currentCustomEvent != null) {
-                    messages.push(currentCustomEvent.ticker);
+                    if (currentCustomEvent.ticker.length > 1) {
+
+                    }
+                    else {
+                        messages.push(currentCustomEvent.ticker[0]);
+                    }
+                    
                 }
             }
 
