@@ -14031,13 +14031,13 @@
 
         function loadFromStorage() {
             try {
-                rounds = JSON.parse(localStorage.getItem('rounds'));
-                if (rounds == null)
+                sessions = JSON.parse(localStorage.getItem('sessions'));
+                if (sessions == null) {
                     rounds = {};
-                groups = JSON.parse(localStorage.getItem('groups'));
-                if (groups == null) {
                     groups = {};
-                    rounds = {}; // reset rounds too
+                }
+                else {
+
                 }
 
                 console.log(rounds);
